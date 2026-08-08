@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0a0c10">
+<title>Gold Trade Trainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0c10;
+    --bg-2:#0d1016;
+    --panel:#141721;
+    --panel-2:#1a1e29;
+    --panel-3:#20242f;
+    --line:#262b38;
+    --line-soft:rgba(255,255,255,0.06);
+    --text:#f0ede4;
+    --muted:#8991a3;
+    --gold:#e0b563;
+    --gold-2:#c99a45;
+    --gold-dim:#8a7233;
+    --green:#3ecf94;
+    --green-2:#2fa878;
+    --red:#e8697a;
+    --red-2:#c9505f;
+    --cyan:#5bc8e0;
+    --mono:'JetBrains Mono','SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;
+    --sans:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    --safe-b: env(safe-area-inset-bottom, 0px);
+    --safe-l: env(safe-area-inset-left, 0px);
+    --safe-r: env(safe-area-inset-right, 0px);
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.25);
+    --shadow-md: 0 8px 24px rgba(0,0,0,0.35);
+    --shadow-gold: 0 4px 16px rgba(224,181,99,0.28);
+    --shadow-green: 0 4px 16px rgba(62,207,148,0.28);
+    --shadow-red: 0 4px 16px rgba(232,105,122,0.28);
+    --grid-rgb: 255,255,255;
+    --grid-alpha: 0.045;
+    --label-bg-alpha: 0.05;
+    --pixel-radius: 12px;
+    --btn-radius: 14px;
+    --hard-shadow: none;
+    --press-y: 0px;
+  }
+  body[data-theme="emerald"]{
+    --gold:#46d3a6; --gold-2:#26a67d; --gold-dim:#1f6b52;
+    --shadow-gold: 0 4px 16px rgba(70,211,166,0.28);
+  }
+  body[data-theme="sapphire"]{
+    --gold:#6fa8f5; --gold-2:#3f7fd6; --gold-dim:#2b5490;
+    --shadow-gold: 0 4px 16px rgba(111,168,245,0.28);
+  }
+  body[data-theme="rose"]{
+    --gold:#f0839f; --gold-2:#d3577a; --gold-dim:#8a3a52;
+    --shadow-gold: 0 4px 16px rgba(240,131,159,0.28);
+  }
+  body[data-theme="mono"]{
+    --gold:#d7dbe4; --gold-2:#a7adba; --gold-dim:#6b7180;
+    --shadow-gold: 0 4px 16px rgba(215,219,228,0.2);
+  }
+  body.skin-gameboy{
+    --bg:#e6e7e9; --bg-2:#dbdcdf;
+    --panel:#f1f2f3; --panel-2:#e6e7e9; --panel-3:#dbdcdf;
+    --line:#4a4d53; --line-soft:rgba(46,49,54,0.10);
+    --text:#33363b; --muted:#767a80;
+    --green:#6ec080; --green-2:#4f9e63;
+    --red:#e0796d; --red-2:#c65f53;
+    --cyan:#6fb0cf;
+    --mono:'VT323','JetBrains Mono',monospace;
+    --sans:'VT323','Manrope',sans-serif;
+    --shadow-sm: 2px 2px 0 rgba(46,49,54,0.55);
+    --shadow-md: 4px 4px 0 rgba(46,49,54,0.55);
+    --shadow-green: 3px 3px 0 rgba(46,49,54,0.55);
+    --shadow-red: 3px 3px 0 rgba(46,49,54,0.55);
+    --grid-rgb: 46,49,54;
+    --grid-alpha: 0.08;
+    --label-bg-alpha: 0.06;
+    --pixel-radius: 6px;
+    --btn-radius: 8px;
+    --press-y: 3px;
+  }
+  body.skin-gameboy:not([data-theme]),
+  body.skin-gameboy[data-theme=""]{ --gold:#d9a542; --gold-2:#bd8a2e; --gold-dim:#8f6a23; }
+  body.skin-gameboy{ --shadow-gold: 3px 3px 0 rgba(46,49,54,0.55); }
+  body.skin-gameboy .brand h1{
+    font-family:'Press Start 2P',var(--mono); font-size:9px; letter-spacing:0; -webkit-background-clip:unset;
+    background:none; color:var(--text); text-shadow:1px 1px 0 var(--gold);
+  }
+  body.skin-gameboy .brand .mark{border-radius:3px; box-shadow:none; background:var(--red);}
+  body.skin-gameboy .chip .v{font-family:'Press Start 2P',var(--mono); font-size:11px;}
+  body.skin-gameboy .toast .big{font-family:'Press Start 2P',var(--mono); font-size:18px; text-shadow:2px 2px 0 rgba(0,0,0,0.15);}
+  body.skin-gameboy .phone{background:var(--bg); box-shadow:none;}
+  body.skin-gameboy .chip,
+  body.skin-gameboy .stat,
+  body.skin-gameboy .canvasBox,
+  body.skin-gameboy .dashCanvas,
+  body.skin-gameboy .segmented,
+  body.skin-gameboy .zoomCtrl,
+  body.skin-gameboy .toolBtn,
+  body.skin-gameboy .iconBtn,
+  body.skin-gameboy .history .dot,
+  body.skin-gameboy .modal,
+  body.skin-gameboy .dashTableWrap,
+  body.skin-gameboy .statsGrid{
+    border:2px solid var(--line) !important;
+    border-radius:var(--pixel-radius) !important;
+    box-shadow:var(--shadow-sm) !important;
+    background:var(--panel) !important;
+  }
+  body.skin-gameboy .abtn,
+  body.skin-gameboy .modalBtn,
+  body.skin-gameboy .closeModal,
+  body.skin-gameboy .themeSwatch,
+  body.skin-gameboy .skinSwatch{
+    border:2px solid var(--line) !important;
+    border-radius:var(--btn-radius) !important;
+  }
+  body.skin-gameboy .abtn.long{ background:var(--green) !important; color:#0e2a12 !important; box-shadow:var(--shadow-green) !important;}
+  body.skin-gameboy .abtn.short{ background:var(--red) !important; color:#3a0c07 !important; box-shadow:var(--shadow-red) !important;}
+  body.skin-gameboy .abtn.gold{ background:var(--gold) !important; color:#2a1d05 !important; box-shadow:var(--shadow-gold) !important;}
+  body.skin-gameboy .abtn.ghost{ background:var(--panel-2) !important; }
+  body.skin-gameboy .modalBtn.primary{ background:var(--gold) !important; box-shadow:var(--shadow-gold) !important;}
+  body.skin-gameboy .abtn:active,
+  body.skin-gameboy .modalBtn:active,
+  body.skin-gameboy .toolBtn:active,
+  body.skin-gameboy .iconBtn:active,
+  body.skin-gameboy .zoomCtrl button:active{
+    transform: translate(var(--press-y), var(--press-y)) !important;
+    box-shadow: 1px 1px 0 rgba(46,49,54,0.55) !important;
+  }
+  body.skin-gameboy .toolBtn.active{ background:var(--gold) !important; color:#2a1d05 !important; border-color:var(--line) !important; box-shadow:1px 1px 0 rgba(46,49,54,0.55) !important;}
+  body.skin-gameboy .segmented button.active{ box-shadow:1px 1px 0 rgba(46,49,54,0.55) !important; }
+  body.skin-gameboy .zoomCtrl button{ border-radius:4px !important; }
+  body.skin-gameboy .toast{ border:2px solid var(--line); border-radius:var(--pixel-radius); box-shadow:var(--shadow-md); background:var(--panel);}
+  body.skin-gameboy .modalBg{ background:rgba(46,49,54,0.28); backdrop-filter:none;}
+  body.skin-gameboy .dashBg{ background:var(--bg); }
+  body.skin-gameboy .dashPanel{ background:var(--bg); }
+  body.skin-gameboy .hint{ background:var(--panel); color:var(--text); border:2px solid var(--line); box-shadow:var(--shadow-sm);}
+  body.skin-gameboy .pill.TP{ background:var(--green); color:#0e2a12; }
+  body.skin-gameboy .pill.SL{ background:var(--red); color:#3a0c07; }
+  body.skin-gameboy .pill.MANUAL{ background:var(--panel-3); color:var(--muted); }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent; user-select:none;}
+  html,body{margin:0;padding:0;height:100%;overscroll-behavior:none;position:fixed;inset:0;overflow:hidden;overscroll-behavior-y:contain;}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);display:flex;justify-content:center;min-height:100dvh;
+    -webkit-font-smoothing:antialiased;}
+  .phone{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+  .phone{width:100%;max-width:460px;min-height:100dvh;display:flex;flex-direction:column;position:relative;
+    background:
+      radial-gradient(600px 380px at 15% -8%, rgba(224,181,99,0.09), transparent 60%),
+      radial-gradient(500px 320px at 100% 8%, rgba(91,200,224,0.05), transparent 55%),
+      linear-gradient(180deg, var(--bg-2), var(--bg) 40%);
+    animation: appIn .4s ease both;}
+  @keyframes appIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+  @media (min-width:520px){
+    .phone{margin:16px 0;min-height:calc(100dvh - 32px);border-radius:28px;border:1px solid var(--line);
+      box-shadow:0 30px 80px rgba(0,0,0,0.5);overflow:hidden;}
+  }
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px calc(16px + var(--safe-r)) 6px calc(16px + var(--safe-l));}
+  .topActions{display:flex;gap:10px;}
+  .brand{display:flex;align-items:center;gap:9px;}
+  .brand .mark{width:8px;height:8px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff6df, var(--gold));
+    box-shadow:0 0 12px rgba(224,181,99,0.7);}
+  .brand h1{font-size:13.5px;margin:0;font-weight:800;letter-spacing:0.6px;
+    background:linear-gradient(120deg, var(--text), var(--gold) 130%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .iconBtn{width:40px;height:40px;border-radius:11px;background:var(--panel);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;color:var(--muted);cursor:pointer;
+    transition:transform .12s, border-color .15s, color .15s;box-shadow:var(--shadow-sm);}
+  .iconBtn svg{width:17px;height:17px;}
+  .iconBtn:active{transform:scale(0.9);}
+  .iconBtn:hover{border-color:var(--gold-dim);color:var(--gold);}
+
+  .stats{display:flex;gap:8px;padding:0 calc(16px + var(--safe-r)) 10px calc(16px + var(--safe-l));overflow-x:auto;}
+  .chip{flex:1;min-width:70px;background:linear-gradient(160deg, var(--panel-3), var(--panel));border:1px solid var(--line);
+    border-radius:12px;padding:9px 10px;text-align:center;box-shadow:var(--shadow-sm);}
+  .chip .l{font-size:8.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:3px;font-weight:600;}
+  .chip .v{font-family:var(--mono);font-size:13.5px;font-weight:700;letter-spacing:-0.2px;}
+  .v.pos{color:var(--green);} .v.neg{color:var(--red);}
+
+  .toolRow{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 calc(14px + var(--safe-r)) 8px calc(14px + var(--safe-l));}
+  .segmented{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;
+    overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:70%;box-shadow:var(--shadow-sm);}
+  .segmented::-webkit-scrollbar{display:none;}
+  .segmented button{border:none;background:transparent;color:var(--muted);font-family:var(--mono);font-size:10.5px;
+    padding:8px 11px;border-radius:7px;cursor:pointer;font-weight:600;flex:0 0 auto;white-space:nowrap;transition:all .15s;min-height:36px;}
+  .segmented button.active{background:linear-gradient(160deg, var(--gold), var(--gold-2));color:#1f1707;box-shadow:var(--shadow-gold);}
+  .segmented button:disabled{opacity:0.28;pointer-events:none;}
+  .zoomCtrl{display:flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:3px 5px;flex:0 0 auto;box-shadow:var(--shadow-sm);}
+  .zoomCtrl button{width:36px;height:36px;border:none;background:var(--panel-3);color:var(--text);border-radius:8px;
+    font-size:18px;line-height:1;cursor:pointer;font-weight:700;transition:transform .1s, background .15s;}
+  .zoomCtrl button:active{transform:scale(0.88);background:var(--gold-dim);}
+  .zoomCtrl span{font-family:var(--mono);font-size:10.5px;color:var(--muted);min-width:26px;text-align:center;}
+
+  .toolRow2{display:flex;align-items:center;gap:7px;padding:0 calc(14px + var(--safe-r)) 10px calc(14px + var(--safe-l));overflow-x:auto;}
+  .toolBtn{flex:0 0 auto;height:38px;min-width:40px;padding:0 13px;border-radius:10px;background:var(--panel);
+    border:1px solid var(--line);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;font-family:var(--mono);
+    transition:all .15s;display:inline-flex;align-items:center;gap:5px;box-shadow:var(--shadow-sm);}
+  .toolBtn svg{width:13px;height:13px;flex:0 0 auto;}
+  .toolBtn.active{background:rgba(224,181,99,0.14);border-color:var(--gold-dim);color:var(--gold);box-shadow:0 0 0 1px rgba(224,181,99,0.15) inset;}
+  .toolBtn:active{transform:scale(0.93);}
+  .toolBtn.danger{color:var(--red);}
+  .toolBtn:disabled{opacity:0.3;pointer-events:none;}
+  .spacer{flex:1;}
+
+
+  .chartWrap{flex:1;position:relative;padding:0 calc(8px + var(--safe-r)) 0 calc(8px + var(--safe-l));display:flex;flex-direction:column;min-height:0;}
+  .readout{display:flex;justify-content:space-between;align-items:baseline;padding:2px 8px 7px;font-family:var(--mono);font-size:11px;color:var(--muted);}
+  .readout .price{color:var(--text);font-weight:700;font-size:13px;letter-spacing:-0.2px;}
+  .canvasBox{position:relative;flex:1;border-radius:16px;overflow:hidden;
+    background:linear-gradient(165deg, var(--panel-3), var(--panel));border:1px solid var(--line);
+    touch-action:none;min-height:260px;box-shadow:var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.03);}
+  canvas{display:block;width:100%;height:100%;touch-action:none;}
+
+  .toast{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.85);
+    background:linear-gradient(160deg, var(--panel-3), var(--panel-2));border:1px solid var(--line);border-radius:18px;
+    padding:20px 30px;text-align:center;
+    opacity:0;pointer-events:none;transition:opacity .2s cubic-bezier(.2,.9,.3,1.2), transform .2s cubic-bezier(.2,.9,.3,1.2);
+    box-shadow:0 24px 60px rgba(0,0,0,0.55);}
+  .toast.show{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto;}
+  .toast .big{font-family:var(--mono);font-size:28px;font-weight:800;margin-bottom:3px;letter-spacing:0.5px;}
+  .toast .big.win{color:var(--green);text-shadow:0 0 20px rgba(62,207,148,0.5);}
+  .toast .big.loss{color:var(--red);text-shadow:0 0 20px rgba(232,105,122,0.4);}
+  .toast .sub{font-size:11.5px;color:var(--muted);font-family:var(--mono);}
+  .toast .tap{margin-top:11px;font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:0.5px;}
+
+  .hint{position:absolute;left:12px;bottom:12px;font-size:10px;color:var(--muted);
+    background:rgba(10,12,16,0.82);backdrop-filter:blur(6px);padding:6px 10px;border-radius:9px;border:1px solid var(--line);
+    font-family:var(--mono);opacity:0;transition:opacity .3s;pointer-events:none;max-width:70%;}
+  .hint.show{opacity:1;}
+
+  .history{display:flex;gap:6px;padding:10px 16px 4px;overflow-x:auto;}
+  .history .dot{flex:0 0 auto;width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:9px;font-weight:700;box-shadow:var(--shadow-sm);}
+  .dot.win{background:rgba(62,207,148,0.14);color:var(--green);border:1px solid rgba(62,207,148,0.4);}
+  .dot.loss{background:rgba(232,105,122,0.14);color:var(--red);border:1px solid rgba(232,105,122,0.4);}
+
+  .actionBar{padding:10px calc(16px + var(--safe-r)) calc(14px + var(--safe-b)) calc(16px + var(--safe-l));display:flex;gap:10px;}
+  .abtn{flex:1;border:none;border-radius:14px;padding:14px 10px;font-weight:700;font-size:14px;
+    font-family:var(--sans);cursor:pointer;transition:transform .1s, filter .12s, box-shadow .15s;letter-spacing:0.2px;}
+  .abtn:active{transform:scale(0.96);filter:brightness(0.96);}
+  .abtn.long{background:linear-gradient(160deg, #4fe0a8, var(--green-2));color:#052717;box-shadow:var(--shadow-green);}
+  .abtn.short{background:linear-gradient(160deg, #f0808f, var(--red-2));color:#2e0a10;box-shadow:var(--shadow-red);}
+  .abtn.gold{background:linear-gradient(160deg, var(--gold), var(--gold-2));color:#221a06;box-shadow:var(--shadow-gold);}
+  .abtn.ghost{background:var(--panel-2);color:var(--text);border:1px solid var(--line);}
+  .abtn.small{padding:11px 6px;font-size:12px;border-radius:11px;}
+  .abtn:disabled{opacity:0.35;pointer-events:none;}
+  .abtn .k{display:block;font-size:9.5px;font-weight:500;opacity:0.75;margin-top:1px;font-family:var(--mono);}
+  .setupBar{display:flex;flex-direction:column;gap:9px;width:100%;}
+  .toggleRow{display:flex;gap:9px;}
+
+  .modalBg{position:fixed;inset:0;background:rgba(6,7,10,0.65);backdrop-filter:blur(3px);display:flex;align-items:flex-end;justify-content:center;
+    opacity:0;pointer-events:none;transition:opacity .2s;z-index:50;}
+  .modalBg.show{opacity:1;pointer-events:auto;}
+  .modal{width:100%;max-width:460px;background:linear-gradient(175deg, var(--panel-3), var(--panel));border-radius:22px 22px 0 0;
+    padding:22px calc(20px + var(--safe-r)) calc(20px + var(--safe-b)) calc(20px + var(--safe-l));
+    transform:translateY(20px);transition:transform .25s cubic-bezier(.2,.9,.3,1.1);border:1px solid var(--line);border-bottom:none;
+    max-height:82vh;overflow-y:auto;position:relative;box-shadow:0 -20px 50px rgba(0,0,0,0.4);}
+  .modalBg.show .modal{transform:translateY(0);}
+  .modal h2{font-size:12.5px;text-transform:uppercase;letter-spacing:1.2px;color:var(--gold);margin:0 0 16px;font-weight:700;}
+  .modal .grp{margin-bottom:16px;}
+  .modal .grp label{display:block;font-size:11.5px;color:var(--muted);margin-bottom:6px;font-weight:600;}
+  .modal .grp input{width:100%;background:var(--panel-2);border:1px solid var(--line);color:var(--text);
+    border-radius:9px;padding:11px 12px;font-family:var(--mono);font-size:14px;transition:border-color .15s;}
+  .modal .grp input:focus{outline:none;border-color:var(--gold-dim);}
+  .modal .row2{display:flex;gap:10px;}
+  .modal .row2 .grp{flex:1;}
+  .modalBtn{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);background:var(--panel-2);
+    color:var(--text);font-weight:700;font-size:13.5px;margin-bottom:9px;cursor:pointer;transition:transform .1s, border-color .15s;}
+  .modalBtn:active{transform:scale(0.98);}
+  .modalBtn.primary{background:linear-gradient(160deg, var(--gold), var(--gold-2));color:#221a06;border:none;box-shadow:var(--shadow-gold);}
+  .modalDivider{font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);
+    margin:4px 0 10px;padding-top:12px;border-top:1px solid var(--line);font-weight:700;}
+  .themeRow{display:flex;gap:11px;padding:2px 0;}
+  .themeSwatch{width:36px;height:36px;border-radius:50%;border:2px solid var(--line);cursor:pointer;
+    transition:transform .12s, border-color .15s, box-shadow .15s;padding:0;}
+  .themeSwatch:active{transform:scale(0.88);}
+  .themeSwatch.active{border-color:var(--text);box-shadow:0 0 0 3px var(--panel), 0 0 0 5px var(--gold);}
+  .fileRow{position:relative;overflow:hidden;}
+  .fileRow input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
+  .status{font-size:11px;color:var(--muted);text-align:center;margin-top:2px;font-family:var(--mono);}
+  .closeModal{position:absolute;top:14px;right:14px;color:var(--muted);font-size:22px;background:var(--panel-2);
+    border:1px solid var(--line);border-radius:50%;width:36px;height:36px;line-height:1;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;}
+
+  /* dashboard */
+  .dashBg{position:fixed;inset:0;background:var(--bg);z-index:60;opacity:0;pointer-events:none;
+    transition:opacity .18s;display:flex;justify-content:center;}
+  .dashBg.show{opacity:1;pointer-events:auto;}
+  .dashPanel{width:100%;max-width:460px;height:100dvh;display:flex;flex-direction:column;
+    background:radial-gradient(500px 300px at 10% 0%, rgba(224,181,99,0.06), transparent 60%), var(--bg);}
+  .dashHead{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line);flex:0 0 auto;position:relative;}
+  .dashHead h2{font-size:12.5px;margin:0;color:var(--gold);text-transform:uppercase;letter-spacing:1.2px;font-weight:700;}
+  .dashBody{flex:1;overflow-y:auto;padding:16px;padding-bottom:calc(24px + var(--safe-b));}
+  .dashSection{margin-bottom:22px;}
+  .dashSection h3{font-size:10.5px;text-transform:uppercase;letter-spacing:0.9px;color:var(--muted);margin:0 0 9px;font-weight:700;}
+  .dashCanvas{width:100%;display:block;background:linear-gradient(165deg, var(--panel-3), var(--panel));
+    border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-sm);}
+  .statsGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:18px;box-shadow:var(--shadow-sm);}
+  .stat{background:var(--panel);padding:13px 14px;}
+  .stat .l{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:5px;font-weight:600;}
+  .stat .v{font-family:var(--mono);font-size:16.5px;font-weight:700;letter-spacing:-0.2px;}
+  .dashTableWrap{max-height:280px;overflow:auto;border:1px solid var(--line);border-radius:10px;}
+  table.dashTable{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:10.5px;}
+  .dashTable th{text-align:left;color:var(--muted);font-weight:600;text-transform:uppercase;font-size:9px;
+    padding:7px 9px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#12151d;}
+  .dashTable td{padding:7px 9px;border-bottom:1px solid rgba(255,255,255,0.04);white-space:nowrap;}
+  .dashTable tr:hover td{background:rgba(224,181,99,0.04);}
+  .dirLong{color:var(--green);} .dirShort{color:var(--red);}
+  .pill{display:inline-block;padding:2.5px 8px;border-radius:20px;font-size:9px;font-weight:600;}
+  .pill.TP{background:rgba(62,207,148,0.15);color:var(--green);}
+  .pill.SL{background:rgba(232,105,122,0.15);color:var(--red);}
+  .pill.MANUAL{background:rgba(139,144,160,0.15);color:var(--muted);}
+  .emptyDash{padding:70px 20px;text-align:center;color:var(--muted);font-size:13px;line-height:1.7;}
+</style>
+</head>
+
+<body class="skin-gameboy">
+<div class="phone">
+
+  <div class="topbar">
+    <div class="brand"><span class="mark"></span><h1>GOLD TRADE TRAINER</h1></div>
+    <div class="topActions">
+      <button class="iconBtn" id="dashBtn" aria-label="แดชบอร์ด">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-6 3 3 5-8"/></svg>
+      </button>
+      <button class="iconBtn" id="settingsBtn" aria-label="ตั้งค่า">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="chip"><div class="l">Trades</div><div class="v" id="stTrades">0</div></div>
+    <div class="chip"><div class="l">Win%</div><div class="v" id="stWin">–</div></div>
+    <div class="chip"><div class="l">Total R</div><div class="v" id="stR">0.0</div></div>
+    <div class="chip"><div class="l">Equity</div><div class="v" id="stEq">10,000</div></div>
+  </div>
+
+  <div class="toolRow">
+    <div class="segmented" id="tfSeg"></div>
+    <div class="zoomCtrl">
+      <button id="zoomOut">−</button>
+      <span id="zoomLabel">45</span>
+      <button id="zoomIn">+</button>
+    </div>
+  </div>
+
+  <div class="toolRow2">
+    <button class="toolBtn active" data-tool="trade" id="toolTrade">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.5" fill="currentColor"/></svg>
+      เทรด
+    </button>
+    <button class="toolBtn" data-tool="line" id="toolLine">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="19" x2="19" y2="5"/><circle cx="5" cy="19" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="5" r="1.6" fill="currentColor" stroke="none"/></svg>
+      เส้น
+    </button>
+    <button class="toolBtn" data-tool="fib" id="toolFib">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="11" x2="20" y2="11" opacity="0.7"/><line x1="4" y1="16" x2="20" y2="16" opacity="0.45"/><line x1="4" y1="21" x2="20" y2="21" opacity="0.25"/></svg>
+      Fib
+    </button>
+    <div class="spacer"></div>
+    <button class="toolBtn danger" id="clearDraw">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+      ล้าง
+    </button>
+    <button class="toolBtn" id="jumpNow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4l9 8-9 8V4z"/><path d="M18 4v16"/></svg>
+      ปัจจุบัน
+    </button>
+    <button class="toolBtn" id="shuffleBtn" title="สุ่มช่วงเวลากราฟใหม่">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.2" fill="currentColor" stroke="none"/><circle cx="16" cy="8" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="8" cy="16" r="1.2" fill="currentColor" stroke="none"/><circle cx="16" cy="16" r="1.2" fill="currentColor" stroke="none"/></svg>
+      สุ่ม
+    </button>
+  </div>
+
+  <div class="chartWrap">
+    <div class="readout">
+      <span id="roDate">–</span>
+      <span class="price" id="roPrice">–</span>
+    </div>
+    <div class="canvasBox" id="canvasBox">
+      <canvas id="chart"></canvas>
+      <div class="toast" id="toast">
+        <div class="big" id="toastBig">WIN</div>
+        <div class="sub" id="toastSub">+1.5R &middot; +$150.00</div>
+        <div class="tap">แตะเพื่อเทรดต่อ</div>
+      </div>
+      <div class="hint" id="hint">แตะ/ลากบนกราฟเพื่อเลือกจุดเข้า &middot; 2 นิ้วบีบ/ลาก = ซูม/เลื่อนดูย้อนหลัง</div>
+    </div>
+  </div>
+
+  <div class="history" id="history"></div>
+
+  <div class="actionBar" id="actionBar"></div>
+
+  <div class="modalBg" id="modalBg">
+    <div class="modal">
+      <button class="closeModal" id="closeModal">×</button>
+      <h2>ตั้งค่า &amp; ข้อมูล</h2>
+
+      <button class="modalBtn" id="newRoundBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px;margin-right:5px;"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8" r="1.2" fill="currentColor" stroke="none"/><circle cx="16" cy="8" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="8" cy="16" r="1.2" fill="currentColor" stroke="none"/><circle cx="16" cy="16" r="1.2" fill="currentColor" stroke="none"/></svg>
+        เริ่มรอบใหม่ (สุ่มช่วงเวลา)
+      </button>
+      <button class="modalBtn" id="demoBtn">สร้างข้อมูลจำลองใหม่</button>
+      <button class="modalBtn fileRow" id="csvBtnLabel">
+        อัปโหลด CSV
+        <input type="file" id="csvInput" accept=".csv">
+      </button>
+      <div class="status" id="dataStatus">กำลังใช้ข้อมูลจำลอง</div>
+
+      <div class="grp" style="margin-top:16px;">
+        <label>จำนวนแท่งที่แสดงบนจอ (Window เริ่มต้น)</label>
+        <input type="number" id="windowSize" value="45" min="12" max="150">
+      </div>
+      <div class="row2">
+        <div class="grp">
+          <label>Risk ต่อไม้ (%)</label>
+          <input type="number" id="riskPct" value="1" min="0.1" step="0.1">
+        </div>
+        <div class="grp">
+          <label>RR เริ่มต้นแนะนำ</label>
+          <input type="number" id="defRR" value="2" min="0.5" step="0.1">
+        </div>
+      </div>
+      <div class="grp">
+        <label>Trailing Distance (x ATR)</label>
+        <input type="number" id="trailMult" value="1.5" min="0.3" step="0.1">
+      </div>
+
+      <div class="grp">
+        <label>ธีมสี</label>
+        <div class="themeRow" id="themeRow">
+          <button class="themeSwatch active" data-theme="" style="background:linear-gradient(135deg,#e0b563,#c99a45);" title="Gold"></button>
+          <button class="themeSwatch" data-theme="emerald" style="background:linear-gradient(135deg,#46d3a6,#26a67d);" title="Emerald"></button>
+          <button class="themeSwatch" data-theme="sapphire" style="background:linear-gradient(135deg,#6fa8f5,#3f7fd6);" title="Sapphire"></button>
+          <button class="themeSwatch" data-theme="rose" style="background:linear-gradient(135deg,#f0839f,#d3577a);" title="Rose"></button>
+          <button class="themeSwatch" data-theme="mono" style="background:linear-gradient(135deg,#d7dbe4,#a7adba);" title="Mono"></button>
+        </div>
+      </div>
+
+      <div class="grp">
+        <label>สไตล์ UI</label>
+        <div class="toggleRow">
+          <button class="abtn small ghost" id="skinModernBtn" style="flex:1;">Modern</button>
+          <button class="abtn small gold" id="skinGameboyBtn" style="flex:1;">🎮 Game Boy</button>
+        </div>
+      </div>
+
+      <div class="modalDivider">ประวัติเทรด &amp; ความคืบหน้า</div>
+      <button class="modalBtn" id="exportBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px;margin-right:5px;"><path d="M12 3v13"/><path d="M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+        ดาวน์โหลดข้อมูล (Export)
+      </button>
+      <button class="modalBtn fileRow" id="importBtnLabel">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px;margin-right:5px;"><path d="M12 21V8"/><path d="M7 13l5-5 5 5"/><path d="M5 3h14"/></svg>
+        นำเข้าข้อมูล (Import)
+        <input type="file" id="importInput" accept="application/json,.json">
+      </button>
+      <div class="status" id="importStatus" style="margin-bottom:12px;"></div>
+
+      <button class="modalBtn primary" id="resetStatsBtn">รีเซ็ตสถิติ &amp; เงินทุน</button>
+      <div class="status" style="margin-top:6px; line-height:1.6;">
+        ข้อมูลจำลอง: เปลี่ยน timeframe จะสุ่มสร้างข้อมูลใหม่ที่ resolution นั้นโดยตรง<br>
+        ข้อมูล CSV: เปลี่ยน timeframe จะ "รวมแท่ง" ตามเวลาให้อัตโนมัติ (ไม่สามารถย่อยให้ละเอียดกว่าไฟล์ต้นฉบับได้)
+      </div>
+    </div>
+  </div>
+
+  <div class="dashBg" id="dashBg">
+    <div class="dashPanel">
+      <div class="dashHead">
+        <h2>แดชบอร์ดสถิติ</h2>
+        <button class="closeModal" id="closeDash">×</button>
+      </div>
+      <div class="dashBody" id="dashBody"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ===================================================================
+// RNG + demo data + CSV
+// ===================================================================
+function mulberry32(seed){
+  return function(){
+    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function gaussian(rng, mean, std){
+  const u = 1-rng(), v = rng();
+  return mean + Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)*std;
+}
+// minutesPerBar: spacing between synthetic candles. Volatility per bar scales with sqrt(time),
+// like a random walk, so 1m candles look proportionally calmer than 1D candles.
+function makeDemoData(n, seed, minutesPerBar){
+  minutesPerBar = minutesPerBar || 1440;
+  seed = (seed==null) ? Math.floor(Math.random()*1e9) : seed;
+  const rng = mulberry32(seed);
+  const scale = Math.sqrt(minutesPerBar/1440);
+  const driftPerBar = 0.12*(minutesPerBar/1440);
+  const stdPerBar = 5.6*scale;
+  const startMs = Date.now() - n*minutesPerBar*60000;
+  const dates = new Array(n);
+  for(let i=0;i<n;i++) dates[i] = new Date(startMs + i*minutesPerBar*60000);
+  const steps = new Array(n);
+  for(let i=0;i<n;i++) steps[i] = gaussian(rng, driftPerBar, stdPerBar);
+  const blockSize = Math.max(5, Math.round(n/22));
+  for(let i=0;i<n;i+=blockSize*2){
+    const sign = rng()<0.5?-1:1;
+    for(let j=i;j<Math.min(i+blockSize,n);j++) steps[j] += sign*2.6*scale;
+  }
+  const close=new Array(n); let cum=1650;
+  for(let i=0;i<n;i++){ cum+=steps[i]; close[i]=Math.max(cum,100); }
+  const open=new Array(n); open[0]=close[0];
+  for(let i=1;i<n;i++) open[i]=close[i-1];
+  const high=new Array(n), low=new Array(n);
+  const wickBase=1*scale, wickRand=6.5*scale;
+  for(let i=0;i<n;i++){
+    high[i]=Math.max(open[i],close[i])+(wickBase+rng()*wickRand);
+    low[i]=Math.min(open[i],close[i])-(wickBase+rng()*wickRand);
+  }
+  const rows=[];
+  for(let i=0;i<n;i++) rows.push({date:dates[i],open:open[i],high:high[i],low:low[i],close:close[i]});
+  return rows;
+}
+function detectDelimiter(headerLine){
+  const commaCount = (headerLine.match(/,/g)||[]).length;
+  const semiCount = (headerLine.match(/;/g)||[]).length;
+  return semiCount > commaCount ? ';' : ',';
+}
+function splitCSVLine(line, delim){
+  delim = delim || ',';
+  // รองรับ field ที่ครอบด้วย "..." ซึ่งอาจมี delimiter อยู่ข้างใน (เช่นตัวเลข "4,003.79")
+  const out = [];
+  let cur = '', inQuotes = false;
+  for(let i=0;i<line.length;i++){
+    const ch = line[i];
+    if(ch === '"'){
+      if(inQuotes && line[i+1] === '"'){ cur += '"'; i++; }
+      else inQuotes = !inQuotes;
+    } else if(ch === delim && !inQuotes){
+      out.push(cur); cur = '';
+    } else cur += ch;
+  }
+  out.push(cur);
+  return out.map(s=>s.trim());
+}
+function toNumber(s){ return parseFloat(String(s).replace(/,/g,'').replace(/%/g,'')); }
+function parseFlexibleDate(s){
+  s = String(s).trim();
+  // YYYY.MM.DD HH:MM(:SS)  เช่นไฟล์จาก MT4/MT5 export (Kaggle XAUUSD dataset ก็ใช้รูปแบบนี้)
+  let m = s.match(/^(\d{4})[.\-](\d{2})[.\-](\d{2})[ T](\d{2}):(\d{2})(?::(\d{2}))?$/);
+  if(m) return new Date(Date.UTC(+m[1], +m[2]-1, +m[3], +m[4], +m[5], +(m[6]||0)));
+  // YYYY.MM.DD หรือ YYYY-MM-DD ล้วน ๆ
+  m = s.match(/^(\d{4})[.\-](\d{2})[.\-](\d{2})$/);
+  if(m) return new Date(Date.UTC(+m[1], +m[2]-1, +m[3]));
+  // MM/DD/YYYY (เช่นไฟล์จาก Investing.com)
+  m = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+  if(m) return new Date(`${m[3]}-${m[1]}-${m[2]}`);
+  return new Date(s);
+}
+function parseCSV(text){
+  const lines = text.replace(/^\uFEFF/,'').split(/\r?\n/).filter(l=>l.trim().length>0);
+  if(lines.length<2) throw new Error("ไฟล์ CSV มีข้อมูลไม่พอ");
+  const delim = detectDelimiter(lines[0]);
+  const header = splitCSVLine(lines[0], delim).map(h=>h.trim().toLowerCase());
+  const findCol = names => header.findIndex(h=>names.includes(h));
+  const idx = {
+    date: findCol(["date","datetime","time","วันเดือนปี","วันที่"]),
+    open: findCol(["open","ราคาเปิด","เปิด"]),
+    high: findCol(["high","สูงสุด"]),
+    low: findCol(["low","ต่ำสุด"]),
+    close: findCol(["close","ล่าสุด","price","ปิด","close price"]),
+  };
+  const missing = Object.keys(idx).filter(k=>idx[k]===-1);
+  if(missing.length) throw new Error(`ไม่พบคอลัมน์: ${missing.join(', ')} (เจอในไฟล์: ${header.join(', ')})`);
+  const rows=[];
+  for(let i=1;i<lines.length;i++){
+    const c = splitCSVLine(lines[i], delim);
+    if(c.length<header.length) continue;
+    const d = parseFlexibleDate(c[idx.date]);
+    if(isNaN(d)) continue;
+    const open=toNumber(c[idx.open]), high=toNumber(c[idx.high]), low=toNumber(c[idx.low]), close=toNumber(c[idx.close]);
+    if([open,high,low,close].some(v=>isNaN(v))) continue;
+    rows.push({date:d, open, high, low, close});
+  }
+  if(!rows.length) throw new Error("อ่านข้อมูลไม่ได้เลยสักแถว ตรวจสอบรูปแบบไฟล์อีกครั้ง");
+  rows.sort((a,b)=>a.date-b.date);
+  return rows;
+}
+// Aggregate rows into fixed-length calendar-time buckets (proper time-based resample,
+// works even with gaps like weekends).
+function resampleByMinutes(baseRows, minutes){
+  const bucketMs = minutes*60000;
+  const out=[];
+  let bucketStart=null, chunk=[];
+  for(const r of baseRows){
+    const b = Math.floor(r.date.getTime()/bucketMs)*bucketMs;
+    if(bucketStart===null || b!==bucketStart){
+      if(chunk.length) out.push(aggregateChunk(chunk));
+      chunk=[r]; bucketStart=b;
+    } else chunk.push(r);
+  }
+  if(chunk.length) out.push(aggregateChunk(chunk));
+  return out;
+}
+function aggregateChunk(chunk){
+  let hi=-Infinity, lo=Infinity;
+  for(const r of chunk){ hi=Math.max(hi,r.high); lo=Math.min(lo,r.low); }
+  return {date:chunk[chunk.length-1].date, open:chunk[0].open, high:hi, low:lo, close:chunk[chunk.length-1].close};
+}
+function medianDeltaMinutes(rows){
+  if(rows.length<2) return 1440;
+  const deltas=[];
+  for(let i=1;i<Math.min(rows.length,300);i++) deltas.push((rows[i].date-rows[i-1].date)/60000);
+  deltas.sort((a,b)=>a-b);
+  return deltas[Math.floor(deltas.length/2)] || 1440;
+}
+function fmtDate(d){
+  const pad = n=>String(n).padStart(2,'0');
+  const datePart = `${d.getUTCFullYear()}-${pad(d.getUTCMonth()+1)}-${pad(d.getUTCDate())}`;
+  if(d.getUTCHours()||d.getUTCMinutes()) return `${datePart} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}`;
+  return datePart;
+}
+function fmt(n,dg=2){ return n.toLocaleString('en-US',{minimumFractionDigits:dg,maximumFractionDigits:dg}); }
+function clamp(v,lo,hi){ return Math.max(lo,Math.min(hi,v)); }
+
+// ===================================================================
+// State
+// ===================================================================
+const ZOOM_MIN=12, ZOOM_MAX=1000;
+const TF_OPTIONS = [
+  {label:'1m',min:1},{label:'5m',min:5},{label:'15m',min:15},{label:'30m',min:30},
+  {label:'1H',min:60},{label:'4H',min:240},{label:'1D',min:1440},{label:'1W',min:10080},{label:'1M',min:43200},
+];
+const DEMO_COUNTS = {1:2500,5:2500,15:2200,30:2000,60:1800,240:1600,1440:1500,10080:900,43200:500};
+
+const S = {
+  mode: 'demo',
+  baseRows: [],
+  baseTimeframeMinutes: 1440,
+  demoSeed: 1,
+  rows: [],
+  timeframeMinutes: 1440,
+  idx: 0,
+  viewOffset: 0,
+  windowSize: 45,
+  phase: 'idle',
+  direction: null,
+  entryPrice: null,
+  sl: null,
+  tp: null,
+  tp1: null,
+  currentSL: null,
+  partialEnabled: false,
+  trailingEnabled: false,
+  partialClosed: false,
+  partialPnl: 0,
+  partialR: 0,
+  trailMultiplier: 1.5,
+  trailDistance: null,
+  riskAmountFixed: 0,
+  orderBarIndex: null,
+  capital: 10000,
+  equity: 10000,
+  riskPct: 1,
+  defRR: 2,
+  trades: [],
+  equityCurve: [{n:0, equity:10000}],
+  slideAnim: 0,
+  tool: 'trade',
+  drawings: [],
+};
+
+const canvas = document.getElementById('chart');
+const ctx = canvas.getContext('2d');
+const canvasBox = document.getElementById('canvasBox');
+const toast = document.getElementById('toast');
+const hint = document.getElementById('hint');
+
+function resizeCanvas(){
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvasBox.getBoundingClientRect();
+  canvas.width = rect.width*dpr;
+  canvas.height = rect.height*dpr;
+  canvas.style.width = rect.width+"px";
+  canvas.style.height = rect.height+"px";
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  draw();
+}
+window.addEventListener('resize', resizeCanvas);
+
+// ===================================================================
+// Metrics / coordinate mapping
+// ===================================================================
+function computePriceRange(start,end){
+  let mn=Infinity, mx=-Infinity;
+  for(let i=start;i<=end;i++){ mn=Math.min(mn,S.rows[i].low); mx=Math.max(mx,S.rows[i].high); }
+  if(S.phase!=='idle' && S.sl!=null && S.tp!=null){
+    mn=Math.min(mn,S.sl,S.tp,S.entryPrice); mx=Math.max(mx,S.sl,S.tp,S.entryPrice);
+    if(S.partialEnabled && S.tp1!=null){ mn=Math.min(mn,S.tp1); mx=Math.max(mx,S.tp1); }
+    if(S.phase==='inTrade' && S.currentSL!=null){ mn=Math.min(mn,S.currentSL); mx=Math.max(mx,S.currentSL); }
+  }
+  const pad=(mx-mn)*0.12 || 5;
+  return {min:mn-pad, max:mx+pad};
+}
+function getMetrics(){
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  const padL=8, padR=56, padT=14, padB=22;
+  const plotW=w-padL-padR, plotH=h-padT-padB;
+  const end = clamp(S.idx - S.viewOffset, 0, S.rows.length-1);
+  const rightMargin = Math.max(3, S.windowSize*0.12);
+  const totalCols = S.windowSize + rightMargin;
+  const cw = plotW/totalCols;
+  const start = Math.max(0, end - Math.ceil(S.windowSize) + 1);
+  const {min,max} = computePriceRange(start,end);
+  return {w,h,padL,padR,padT,padB,plotW,plotH,end,start,cw,rightMargin,min,max};
+}
+function xAt(i,m){ const posFromRight = (m.end-i)+m.rightMargin; return m.padL+m.plotW-(posFromRight)*m.cw-m.cw/2+S.slideAnim*m.cw; }
+function yAt(p,m){ return m.padT+(1-(p-m.min)/(m.max-m.min))*m.plotH; }
+function pixelToData(clientX, clientY, m){
+  const rect = canvas.getBoundingClientRect();
+  const x = clientX-rect.left, y = clientY-rect.top;
+  const price = m.max - ((y-m.padT)/m.plotH)*(m.max-m.min);
+  const index = m.end - ((m.padL+m.plotW-m.cw*m.rightMargin-m.cw/2-x)/m.cw);
+  return {index, price};
+}
+function maxViewOffset(){ return Math.max(0, S.idx - 5); }
+function atr(period=14){
+  const m = getMetrics();
+  const from = Math.max(1, m.end-period+1);
+  let sum=0, cnt=0;
+  for(let i=from;i<=m.end;i++){
+    sum += Math.max(S.rows[i].high-S.rows[i].low, Math.abs(S.rows[i].high-S.rows[i-1].close), Math.abs(S.rows[i].low-S.rows[i-1].close));
+    cnt++;
+  }
+  return cnt? sum/cnt : 5;
+}
+
+// ===================================================================
+// Drawing
+// ===================================================================
+let pendingDrawing = null;
+
+function hexToRgb(hex){
+  hex = hex.trim().replace('#','');
+  if(hex.length===3) hex = hex.split('').map(c=>c+c).join('');
+  const n = parseInt(hex,16);
+  return {r:(n>>16)&255, g:(n>>8)&255, b:n&255};
+}
+function rgba(hex, a){
+  const {r,g,b} = hexToRgb(hex);
+  return `rgba(${r},${g},${b},${a})`;
+}
+function getTheme(){
+  const cs = getComputedStyle(document.body);
+  const v = name => cs.getPropertyValue(name).trim();
+  return {
+    up: v('--green') || '#3fbf8f',
+    down: v('--red') || '#e0616b',
+    entry: v('--gold') || '#d4af5a',
+    tool: v('--cyan') || '#5bc8e0',
+    muted: v('--muted') || '#8f96a6',
+    gridRgb: v('--grid-rgb') || '255,255,255',
+    gridAlpha: v('--grid-alpha') || '0.045',
+    labelBgAlpha: v('--label-bg-alpha') || '0.05',
+  };
+}
+
+function draw(){
+  const m = getMetrics();
+  const th = getTheme();
+  ctx.clearRect(0,0,m.w,m.h);
+
+  ctx.strokeStyle=`rgba(${th.gridRgb},${th.gridAlpha})`;
+  ctx.setLineDash([2,4]);
+  ctx.lineWidth=1;
+  ctx.font="9.5px "+(getComputedStyle(document.documentElement).getPropertyValue('--mono')||"monospace");
+  for(let g=0; g<=4; g++){
+    const p = m.min+(m.max-m.min)*g/4;
+    const y = yAt(p,m);
+    ctx.beginPath(); ctx.moveTo(m.padL,y); ctx.lineTo(m.w-m.padR,y); ctx.stroke();
+  }
+  ctx.setLineDash([]);
+  for(let g=0; g<=4; g++){
+    const p = m.min+(m.max-m.min)*g/4;
+    const y = yAt(p,m);
+    const label = fmt(p,1);
+    const tw = ctx.measureText(label).width;
+    ctx.fillStyle = `rgba(${th.gridRgb},${th.labelBgAlpha})`;
+    if(ctx.roundRect){ ctx.beginPath(); ctx.roundRect(m.w-m.padR+3, y-8, tw+8, 16, 4); ctx.fill(); }
+    ctx.fillStyle=th.muted; ctx.textAlign="left";
+    ctx.fillText(label, m.w-m.padR+7, y+3.5);
+  }
+
+  if(S.phase!=='idle' && S.sl!=null && S.tp!=null && S.orderBarIndex!=null){
+    drawRiskZones(m, th);
+  }
+
+  const bodyW = Math.max(2, m.cw*0.58);
+  const radius = Math.min(2.5, bodyW*0.28);
+  for(let i=m.start-1; i<=m.end; i++){
+    if(i<0) continue;
+    const r = S.rows[i];
+    const x = xAt(i,m);
+    if(x < -m.cw || x > m.w+m.cw) continue;
+    const up = r.close >= r.open;
+    ctx.strokeStyle = up? th.up : th.down;
+    ctx.fillStyle = up? rgba(th.up,0.9) : rgba(th.down,0.9);
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x, yAt(r.high,m));
+    ctx.lineTo(x, yAt(r.low,m));
+    ctx.stroke();
+    const yO = yAt(r.open,m), yC = yAt(r.close,m);
+    const top = Math.min(yO,yC), hgt = Math.max(1.5, Math.abs(yC-yO));
+    if(ctx.roundRect && hgt>radius*2){
+      ctx.beginPath(); ctx.roundRect(x-bodyW/2, top, bodyW, hgt, radius); ctx.fill();
+    } else {
+      ctx.fillRect(x-bodyW/2, top, bodyW, hgt);
+    }
+  }
+
+  for(const d of S.drawings) drawDrawing(d, m, false, th);
+  if(pendingDrawing) drawDrawing(pendingDrawing, m, true, th);
+
+  if(S.entryPrice!=null) drawLevelLine(S.entryPrice, th.entry, S.phase==='pending'?"ENTRY •":"ENTRY", m, S.phase==='idle');
+  if(S.phase!=='idle' && S.sl!=null && S.tp!=null){
+    const slShow = S.phase==='inTrade' && S.currentSL!=null ? S.currentSL : S.sl;
+    drawLevelLine(slShow, th.down, S.partialClosed?"SL•BE":"SL", m, S.phase==='setRisk');
+    drawLevelLine(S.tp, th.up, S.partialEnabled?"TP2":"TP", m, S.phase==='setRisk');
+    if(S.partialEnabled && !S.partialClosed && S.tp1!=null){
+      drawLevelLine(S.tp1, th.tool, "TP1", m, S.phase==='setRisk');
+    }
+  }
+
+  if(S.idx>=m.start && S.idx<=m.end+2){
+    const nowX = xAt(S.idx,m);
+    ctx.strokeStyle=rgba(th.entry,0.25);
+    ctx.setLineDash([3,4]);
+    ctx.beginPath(); ctx.moveTo(nowX+m.cw*0.55,m.padT); ctx.lineTo(nowX+m.cw*0.55,m.h-m.padB); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  updateReadout(m);
+}
+function drawRiskZones(m, th){
+  const xStart = xAt(S.orderBarIndex, m);
+  const xEnd = m.w - m.padR;
+  if(xEnd <= xStart) return;
+  const yEntry = yAt(S.entryPrice, m);
+  const slShow = S.phase==='inTrade' && S.currentSL!=null ? S.currentSL : S.sl;
+  const ySL = yAt(slShow, m);
+  const yTP = yAt(S.tp, m);
+  ctx.fillStyle = rgba(th.down,0.13);
+  ctx.fillRect(xStart, Math.min(yEntry,ySL), xEnd-xStart, Math.abs(ySL-yEntry));
+  ctx.fillStyle = rgba(th.up,0.13);
+  ctx.fillRect(xStart, Math.min(yEntry,yTP), xEnd-xStart, Math.abs(yTP-yEntry));
+  if(S.partialEnabled && !S.partialClosed && S.tp1!=null){
+    const yTP1 = yAt(S.tp1, m);
+    ctx.fillStyle = rgba(th.tool,0.10);
+    ctx.fillRect(xStart, Math.min(yEntry,yTP1), xEnd-xStart, Math.abs(yTP1-yEntry));
+  }
+  ctx.strokeStyle = rgba(th.entry,0.5);
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(xStart, m.padT); ctx.lineTo(xStart, m.h-m.padB); ctx.stroke();
+}
+function drawLevelLine(price, color, label, m, draggable){
+  const y = yAt(price,m);
+  ctx.strokeStyle=color; ctx.globalAlpha=0.85; ctx.setLineDash([5,4]); ctx.lineWidth=1.3;
+  ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(m.w-m.padR,y); ctx.stroke();
+  ctx.setLineDash([]); ctx.globalAlpha=1;
+  ctx.fillStyle=color;
+  ctx.beginPath();
+  if(ctx.roundRect){ ctx.roundRect(m.w-m.padR, y-9, m.padR-2, 18, 4); ctx.fill(); }
+  else ctx.fillRect(m.w-m.padR, y-9, m.padR-2, 18);
+  ctx.fillStyle="#0b0d11";
+  ctx.font="bold 9.5px "+(getComputedStyle(document.documentElement).getPropertyValue('--mono')||"monospace");
+  ctx.textAlign="center";
+  ctx.fillText(label, m.w-m.padR/2-1, y+3.5);
+}
+function drawDrawing(d, m, isPending, th){
+  th = th || getTheme();
+  if(d.type==='line'){
+    const x1=xAt(d.x1,m), y1=yAt(d.p1,m), x2=xAt(d.x2,m), y2=yAt(d.p2,m);
+    ctx.strokeStyle = isPending? rgba(th.tool,0.6) : th.tool;
+    ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+    ctx.fillStyle=th.tool;
+    ctx.beginPath(); ctx.arc(x1,y1,3,0,7); ctx.fill();
+    ctx.beginPath(); ctx.arc(x2,y2,3,0,7); ctx.fill();
+  } else if(d.type==='fib'){
+    const levels=[0,0.236,0.382,0.5,0.618,0.786,1];
+    const x1 = xAt(Math.min(d.x1,d.x2), m);
+    const xRight = m.w-m.padR;
+    ctx.font="9px "+(getComputedStyle(document.documentElement).getPropertyValue('--mono')||"monospace");
+    for(const lv of levels){
+      const price = d.p1+(d.p2-d.p1)*lv;
+      const y = yAt(price,m);
+      ctx.strokeStyle = rgba(th.entry, (lv===0||lv===1) ? 0.55 : 0.28);
+      ctx.setLineDash((lv===0||lv===1)?[]:[4,3]);
+      ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(x1,y); ctx.lineTo(xRight,y); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle=th.entry; ctx.textAlign="left";
+      ctx.fillText(`${lv.toFixed(3)}  ${fmt(price,1)}`, x1+4, y-3);
+    }
+  }
+}
+function updateReadout(m){
+  const r = S.rows[m.end];
+  document.getElementById('roDate').textContent = fmtDate(r.date) + (S.viewOffset>0 ? `  (ย้อนหลัง ${S.viewOffset})` : '');
+  let priceTxt = fmt(r.close,2);
+  if(S.phase==='inTrade'){
+    const dir = S.direction==='long'?1:-1;
+    const floatingR = ((S.rows[S.idx].close-S.entryPrice)*dir)/Math.abs(S.entryPrice-S.sl);
+    const tag = S.partialClosed ? ' · TP1✓ SL→BE' : (S.trailingEnabled ? ' · trailing' : '');
+    priceTxt = `${fmt(S.rows[S.idx].close,2)}  (${floatingR>=0?'+':''}${fmt(floatingR,2)}R)${tag}`;
+  } else if(S.phase==='pending'){
+    priceTxt = `${fmt(S.rows[S.idx].close,2)}  · รอราคาแตะ ${fmt(S.entryPrice,2)}`;
+  }
+  document.getElementById('roPrice').textContent = priceTxt;
+}
+
+// ===================================================================
+// Interaction: Pointer Events for single-finger/mouse, native Touch
+// Events for two-finger pinch/pan (more reliable across mobile browsers)
+// ===================================================================
+let dragging = null;
+let multiTouchActive = false;
+let gesturePrev = null;
+
+canvas.addEventListener('pointerdown', onDown);
+canvas.addEventListener('pointermove', onMove);
+window.addEventListener('pointerup', onUp);
+window.addEventListener('pointercancel', onUp);
+
+canvas.addEventListener('wheel', e=>{
+  e.preventDefault();
+  const m = getMetrics();
+  const beforeIndex = pixelToData(e.clientX, e.clientY, m).index;
+  const factor = Math.exp(-e.deltaY*0.0015);
+  S.windowSize = clamp(S.windowSize/factor, ZOOM_MIN, ZOOM_MAX);
+  const m2 = getMetrics();
+  const afterIndex = pixelToData(e.clientX, e.clientY, m2).index;
+  S.viewOffset = clamp(S.viewOffset - (afterIndex-beforeIndex), 0, maxViewOffset());
+  updateZoomLabel();
+  draw();
+}, {passive:false});
+
+canvas.addEventListener('touchstart', e=>{
+  if(e.touches.length>=2){
+    e.preventDefault();
+    multiTouchActive = true;
+    dragging = null; pendingDrawing = null;
+    const [t0,t1] = e.touches;
+    gesturePrev = {dist:dist(t0,t1), cx:(t0.clientX+t1.clientX)/2, cy:(t0.clientY+t1.clientY)/2};
+  }
+}, {passive:false});
+
+canvas.addEventListener('touchmove', e=>{
+  if(e.touches.length>=2 && gesturePrev){
+    e.preventDefault();
+    const [t0,t1] = e.touches;
+    const d = dist(t0,t1);
+    const cx=(t0.clientX+t1.clientX)/2, cy=(t0.clientY+t1.clientY)/2;
+    const m = getMetrics();
+    if(gesturePrev.dist>8){
+      const scaleFactor = d/gesturePrev.dist;
+      S.windowSize = clamp(S.windowSize/scaleFactor, ZOOM_MIN, ZOOM_MAX);
+    }
+    const panIndexDelta = (cx-gesturePrev.cx)/m.cw;
+    S.viewOffset = clamp(S.viewOffset - panIndexDelta, 0, maxViewOffset());
+    gesturePrev = {dist:d, cx, cy};
+    updateZoomLabel();
+    draw();
+  }
+}, {passive:false});
+
+function endMultiTouch(e){
+  if(e.touches.length<2){ multiTouchActive=false; gesturePrev=null; }
+}
+canvas.addEventListener('touchend', endMultiTouch, {passive:false});
+canvas.addEventListener('touchcancel', endMultiTouch, {passive:false});
+
+function dist(a,b){ return Math.hypot(a.clientX-b.clientX, a.clientY-b.clientY); }
+
+function nearestHandle(clientY, m){
+  const rect = canvas.getBoundingClientRect();
+  const y = clientY-rect.top;
+  const candidates = [];
+  if(S.phase==='idle' || S.phase==='setRisk') candidates.push(['entry', S.entryPrice]);
+  if(S.phase==='setRisk'){
+    candidates.push(['sl',S.sl]); candidates.push(['tp',S.tp]);
+    if(S.partialEnabled && S.tp1!=null) candidates.push(['tp1',S.tp1]);
+  }
+  let best=null, bestD=24;
+  for(const [name,price] of candidates){
+    const d = Math.abs(yAt(price,m)-y);
+    if(d<bestD){ bestD=d; best=name; }
+  }
+  return best;
+}
+function onDown(e){
+  if(multiTouchActive) return;
+  canvas.setPointerCapture(e.pointerId);
+  const m = getMetrics();
+  if(S.tool==='trade'){
+    const h = nearestHandle(e.clientY, m);
+    if(h){ dragging=h; return; }
+    if(S.phase==='idle'){
+      S.entryPrice = pixelToData(e.clientX,e.clientY,m).price;
+      dragging='entry';
+      hint.classList.remove('show');
+      draw();
+    }
+  } else {
+    const d = pixelToData(e.clientX,e.clientY,m);
+    pendingDrawing = {type:S.tool, x1:d.index, p1:d.price, x2:d.index, p2:d.price};
+    hint.classList.remove('show');
+    draw();
+  }
+}
+function onMove(e){
+  if(multiTouchActive) return;
+  const m = getMetrics();
+  if(S.tool==='trade'){
+    if(!dragging) return;
+    const p = pixelToData(e.clientX,e.clientY,m).price;
+    if(dragging==='entry') S.entryPrice=p;
+    if(dragging==='sl') S.sl=p;
+    if(dragging==='tp') S.tp=p;
+    if(dragging==='tp1') S.tp1=p;
+    draw();
+  } else {
+    if(!pendingDrawing) return;
+    const d = pixelToData(e.clientX,e.clientY,m);
+    pendingDrawing.x2=d.index; pendingDrawing.p2=d.price;
+    draw();
+  }
+}
+function onUp(e){
+  if(multiTouchActive) return;
+  if(S.tool==='trade'){
+    dragging=null;
+  } else if(pendingDrawing){
+    S.drawings.push(pendingDrawing);
+    pendingDrawing=null;
+    draw();
+  }
+}
+
+// ===================================================================
+// Trade actions
+// ===================================================================
+function vibrate(ms){ if(navigator.vibrate) navigator.vibrate(ms); }
+
+function renderActionBar(){
+  const bar = document.getElementById('actionBar');
+  if(S.phase==='idle'){
+    bar.innerHTML = `
+      <div class="setupBar">
+        <div class="toggleRow">
+          <button class="abtn long" id="btnLong">เข้า LONG<span class="k">ที่เส้น ENTRY</span></button>
+          <button class="abtn short" id="btnShort">เข้า SHORT<span class="k">ที่เส้น ENTRY</span></button>
+        </div>
+        <div class="toggleRow">
+          <button class="abtn ghost" id="btnSkip">Skip →</button>
+          <button class="abtn ghost small" id="btnSkip5" style="flex:0.55;">×5 →</button>
+        </div>
+      </div>`;
+    document.getElementById('btnLong').onclick = ()=>enterTrade('long');
+    document.getElementById('btnShort').onclick = ()=>enterTrade('short');
+    document.getElementById('btnSkip').onclick = ()=>skipCandle();
+    document.getElementById('btnSkip5').onclick = ()=>skipMultiple(5);
+  } else if(S.phase==='setRisk'){
+    bar.innerHTML = `
+      <div class="setupBar">
+        <div class="toggleRow">
+          <button class="abtn small ${S.partialEnabled?'gold':'ghost'}" id="btnPartial">Partial TP${S.partialEnabled?' ✓':''}</button>
+          <button class="abtn small ${S.trailingEnabled?'gold':'ghost'}" id="btnTrail">Trailing SL${S.trailingEnabled?' ✓':''}</button>
+        </div>
+        <div class="toggleRow">
+          <button class="abtn ghost" id="btnCancel">ยกเลิก</button>
+          <button class="abtn gold" id="btnConfirm">วางออเดอร์</button>
+        </div>
+      </div>`;
+    document.getElementById('btnCancel').onclick = ()=>cancelSetup();
+    document.getElementById('btnConfirm').onclick = ()=>confirmEntry();
+    document.getElementById('btnPartial').onclick = ()=>{ S.partialEnabled=!S.partialEnabled; renderActionBar(); draw(); };
+    document.getElementById('btnTrail').onclick = ()=>{ S.trailingEnabled=!S.trailingEnabled; renderActionBar(); draw(); };
+  } else if(S.phase==='pending'){
+    bar.innerHTML = `
+      <div class="setupBar">
+        <button class="abtn ghost" id="btnCancelPending">ยกเลิกออเดอร์</button>
+        <div class="toggleRow">
+          <button class="abtn gold" id="btnSkipPending">Skip →<span class="k">รอราคาชนออเดอร์ที่ ${fmt(S.entryPrice,2)}</span></button>
+          <button class="abtn gold small" id="btnSkipPending5" style="flex:0.55;">×5 →</button>
+        </div>
+      </div>`;
+    document.getElementById('btnCancelPending').onclick = ()=>cancelPending();
+    document.getElementById('btnSkipPending').onclick = ()=>skipCandle();
+    document.getElementById('btnSkipPending5').onclick = ()=>skipMultiple(5);
+  } else if(S.phase==='inTrade'){
+    bar.innerHTML = `
+      <div class="setupBar">
+        <button class="abtn ghost" id="btnClose">ปิดเอง</button>
+        <div class="toggleRow">
+          <button class="abtn gold" id="btnSkip2">Skip →</button>
+          <button class="abtn gold small" id="btnSkip2x5" style="flex:0.55;">×5 →</button>
+        </div>
+      </div>`;
+    document.getElementById('btnClose').onclick = ()=>closeManual();
+    document.getElementById('btnSkip2').onclick = ()=>skipCandle();
+    document.getElementById('btnSkip2x5').onclick = ()=>skipMultiple(5);
+  }
+  document.querySelectorAll('.toolBtn[data-tool]').forEach(b=> b.disabled = (S.phase==='setRisk'));
+}
+function enterTrade(dir){
+  vibrate(8);
+  S.direction = dir;
+  const risk = atr()*1.5;
+  if(dir==='long'){ S.sl=S.entryPrice-risk; S.tp=S.entryPrice+risk*S.defRR; }
+  else { S.sl=S.entryPrice+risk; S.tp=S.entryPrice-risk*S.defRR; }
+  S.tp1 = dir==='long' ? S.entryPrice+(S.tp-S.entryPrice)*0.5 : S.entryPrice-(S.entryPrice-S.tp)*0.5;
+  S.partialEnabled = false;
+  S.trailingEnabled = false;
+  S.partialClosed = false;
+  S.trailDistance = atr()*S.trailMultiplier;
+  S.orderBarIndex = S.idx;
+  S.phase='setRisk';
+  renderActionBar(); draw();
+}
+function cancelSetup(){
+  S.phase='idle'; S.direction=null;
+  S.partialEnabled=false; S.trailingEnabled=false; S.tp1=null; S.orderBarIndex=null;
+  renderActionBar(); draw();
+}
+function cancelPending(){
+  S.phase='idle'; S.direction=null;
+  S.partialEnabled=false; S.trailingEnabled=false; S.tp1=null; S.orderBarIndex=null;
+  S.entryPrice = S.rows[S.idx].close;
+  renderActionBar(); draw();
+}
+function confirmEntry(){
+  vibrate(10);
+  // ออเดอร์ยังไม่ fill ทันที ต้องรอราคากราฟมาแตะเส้น ENTRY ก่อน (เหมือน limit order จริง)
+  S.phase='pending'; S.viewOffset=0;
+  renderActionBar(); draw();
+}
+function fillOrder(){
+  S.riskAmountFixed = S.equity*(S.riskPct/100);
+  S.currentSL = S.sl;
+  S.partialClosed = false;
+  S.partialPnl = 0;
+  S.partialR = 0;
+  S.phase = 'inTrade';
+  vibrate([10,30,10]);
+  renderActionBar(); draw();
+}
+function closeManual(){ resolveTrade(S.rows[S.idx].close, S.partialClosed?'PARTIAL+MANUAL':'MANUAL'); }
+
+function doPartialClose(exitPrice){
+  const dir = S.direction==='long'?1:-1;
+  const riskUnit = Math.abs(S.entryPrice-S.sl);
+  const rAtPartial = ((exitPrice-S.entryPrice)*dir)/riskUnit;
+  const pnl = S.riskAmountFixed*0.5*rAtPartial;
+  S.equity += pnl;
+  S.partialPnl = pnl;
+  S.partialR = rAtPartial*0.5;
+  S.partialClosed = true;
+  S.currentSL = S.entryPrice; // move stop to breakeven for the remaining half
+  vibrate(6);
+  draw();
+}
+
+// คืนค่า true ถ้าเกิดเหตุการณ์สำคัญที่ควรหยุด fast-forward (ออเดอร์ fill / ไม้ปิด / ข้อมูลหมด)
+function advanceOneCandle(){
+  if(S.idx >= S.rows.length-1) return true;
+  S.idx += 1;
+
+  if(S.phase==='pending'){
+    const r = S.rows[S.idx];
+    const filled = r.low <= S.entryPrice && S.entryPrice <= r.high;
+    if(filled){ fillOrder(); return true; }
+    return false;
+  }
+  if(S.phase!=='inTrade') return false;
+
+  const r = S.rows[S.idx];
+  const dir = S.direction;
+
+  const hitSL = dir==='long' ? r.low<=S.currentSL : r.high>=S.currentSL;
+  if(hitSL){ resolveTrade(S.currentSL, S.partialClosed?'PARTIAL+SL':'SL'); return true; }
+
+  if(S.partialEnabled && !S.partialClosed){
+    const hitTP1 = dir==='long' ? r.high>=S.tp1 : r.low<=S.tp1;
+    if(hitTP1){ doPartialClose(S.tp1); return false; }
+  }
+
+  const hitTP = dir==='long' ? r.high>=S.tp : r.low<=S.tp;
+  if(hitTP){ resolveTrade(S.tp, S.partialClosed?'PARTIAL+TP':'TP'); return true; }
+
+  if(S.trailingEnabled){
+    const profit = (r.close-S.entryPrice)*(dir==='long'?1:-1);
+    if(profit > S.trailDistance){
+      const proposed = dir==='long' ? r.close-S.trailDistance : r.close+S.trailDistance;
+      S.currentSL = dir==='long' ? Math.max(S.currentSL, proposed) : Math.min(S.currentSL, proposed);
+    }
+  }
+  return false;
+}
+function skipCandle(){
+  if(S.idx >= S.rows.length-1) return;
+  vibrate(4);
+  advanceOneCandle();
+  if(S.viewOffset===0) animateSlide(); else draw();
+}
+function skipMultiple(n){
+  if(S.idx >= S.rows.length-1) return;
+  vibrate([6,20,6]);
+  for(let k=0;k<n;k++){
+    if(S.idx >= S.rows.length-1) break;
+    if(advanceOneCandle()) break; // หยุดกลางทางถ้าออเดอร์ fill หรือไม้ปิด จะได้ไม่พลาดจังหวะสำคัญ
+  }
+  S.viewOffset = 0;
+  draw();
+}
+function resolveTrade(exitPrice, outcome){
+  const dir = S.direction==='long'?1:-1;
+  const riskUnit = Math.abs(S.entryPrice-S.sl);
+  const remainingFraction = S.partialClosed ? 0.5 : 1;
+  const rSegment = ((exitPrice-S.entryPrice)*dir)/riskUnit;
+  const pnlSegment = S.riskAmountFixed*remainingFraction*rSegment;
+  const totalPnl = (S.partialClosed? S.partialPnl:0) + pnlSegment;
+  const totalR = (S.partialClosed? S.partialR:0) + rSegment*remainingFraction;
+  S.equity += pnlSegment;
+  S.trades.push({direction:S.direction, outcome, r:totalR, pnl:totalPnl, date:S.rows[S.idx].date});
+  S.equityCurve.push({n:S.trades.length, equity:S.equity});
+  showToast(totalR>=0, totalR, totalPnl);
+  updateStats();
+  S.phase='idle'; S.direction=null;
+  S.entryPrice = S.rows[S.idx].close;
+  S.partialEnabled=false; S.trailingEnabled=false; S.partialClosed=false; S.tp1=null; S.orderBarIndex=null;
+  renderActionBar(); draw();
+}
+function showToast(isWin, r, pnl){
+  document.getElementById('toastBig').textContent = isWin?'WIN':'LOSS';
+  document.getElementById('toastBig').className = 'big '+(isWin?'win':'loss');
+  document.getElementById('toastSub').textContent = `${r>=0?'+':''}${fmt(r,2)}R  ·  ${pnl>=0?'+':''}$${fmt(Math.abs(pnl),2)}`;
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'), 1600);
+}
+toast.addEventListener('pointerdown', ()=>toast.classList.remove('show'));
+
+
+function updateStats(){
+  const t = S.trades;
+  const wins = t.filter(x=>x.r>0).length;
+  document.getElementById('stTrades').textContent = t.length;
+  document.getElementById('stWin').textContent = t.length? Math.round(wins/t.length*100)+'%' : '–';
+  const totalR = t.reduce((s,x)=>s+x.r,0);
+  const stREl = document.getElementById('stR');
+  stREl.textContent = (totalR>=0?'+':'')+fmt(totalR,1);
+  stREl.className = 'v '+(totalR>=0?'pos':'neg');
+  const stEq = document.getElementById('stEq');
+  stEq.textContent = fmt(S.equity,0);
+  stEq.className = 'v '+(S.equity>=S.capital?'pos':'neg');
+  const hist = document.getElementById('history');
+  hist.innerHTML = t.slice(-16).map(x=>`<div class="dot ${x.r>0?'win':'loss'}">${x.r>=0?'+':''}${fmt(x.r,1)}</div>`).join('');
+  hist.scrollLeft = hist.scrollWidth;
+}
+
+// ===================================================================
+// Slide animation
+// ===================================================================
+function animateSlide(){
+  S.slideAnim = 1;
+  const dur=170, t0=performance.now();
+  function step(t){
+    const p = Math.min(1,(t-t0)/dur);
+    S.slideAnim = 1-(1-Math.pow(1-p,3));
+    draw();
+    if(p<1) requestAnimationFrame(step); else S.slideAnim=0;
+  }
+  requestAnimationFrame(step);
+}
+
+// ===================================================================
+// Timeframe / zoom
+// ===================================================================
+function nearestTFButton(minutes){
+  let best=TF_OPTIONS[0].min, bestDiff=Infinity;
+  for(const o of TF_OPTIONS){ const diff=Math.abs(o.min-minutes); if(diff<bestDiff){bestDiff=diff;best=o.min;} }
+  return best;
+}
+function setActiveTFButton(min){
+  [...document.getElementById('tfSeg').children].forEach(x=>x.classList.toggle('active', parseInt(x.dataset.tf)===min));
+}
+function refreshTFAvailability(){
+  [...document.getElementById('tfSeg').children].forEach(b=>{
+    const min = parseInt(b.dataset.tf);
+    const disabled = S.mode==='csv' && min < S.baseTimeframeMinutes;
+    b.disabled = disabled;
+    b.title = disabled ? `ไฟล์ CSV นี้ละเอียดสุดที่ ~${Math.round(S.baseTimeframeMinutes)} นาที/แท่ง เลือก timeframe นี้ไม่ได้` : '';
+  });
+}
+function updateZoomLabel(){ document.getElementById('zoomLabel').textContent = Math.round(S.windowSize); }
+
+function applyRowsAndReset(rows, opts={}){
+  S.rows = rows;
+  S.viewOffset = 0;
+  S.drawings = [];
+  S.phase='idle'; S.direction=null; S.sl=null; S.tp=null; S.orderBarIndex=null; S.partialEnabled=false; S.trailingEnabled=false; S.tp1=null;
+  const minStart = Math.min(S.windowSize+5, rows.length-1);
+  let idx;
+  if(opts.preserveFraction!=null){
+    idx = clamp(Math.round(opts.preserveFraction*(rows.length-1)), minStart, rows.length-1);
+  } else if(opts.randomStart){
+    const maxStart = Math.max(minStart, rows.length-Math.min(300, Math.floor(rows.length*0.3)));
+    idx = Math.floor(minStart + Math.random()*(maxStart-minStart));
+  } else idx = minStart;
+  S.idx = idx;
+  S.entryPrice = rows[idx].close;
+  renderActionBar();
+  resizeCanvas();
+}
+function setTimeframe(minutes){
+  if(minutes===S.timeframeMinutes) return;
+  if(S.mode==='csv' && minutes < S.baseTimeframeMinutes) return; // ปุ่มควรถูก disable อยู่แล้ว กันไว้อีกชั้น
+  const fraction = S.rows.length>1 ? S.idx/(S.rows.length-1) : 0;
+  let newRows;
+  if(S.mode==='demo'){
+    const count = DEMO_COUNTS[minutes] || 1500;
+    newRows = makeDemoData(count, S.demoSeed, minutes);
+    S.baseRows = newRows;
+    S.baseTimeframeMinutes = minutes;
+  } else {
+    newRows = resampleByMinutes(S.baseRows, minutes);
+  }
+  S.timeframeMinutes = minutes;
+  refreshTFAvailability();
+  applyRowsAndReset(newRows, {preserveFraction:fraction});
+}
+
+const tfSeg = document.getElementById('tfSeg');
+TF_OPTIONS.forEach(o=>{
+  const b = document.createElement('button');
+  b.textContent = o.label;
+  b.dataset.tf = o.min;
+  b.addEventListener('click', ()=>{ setActiveTFButton(o.min); setTimeframe(o.min); });
+  tfSeg.appendChild(b);
+});
+
+document.getElementById('zoomIn').addEventListener('click', ()=>{
+  S.windowSize = clamp(Math.round(S.windowSize*0.85), ZOOM_MIN, ZOOM_MAX);
+  updateZoomLabel(); draw();
+});
+document.getElementById('zoomOut').addEventListener('click', ()=>{
+  S.windowSize = clamp(Math.round(S.windowSize/0.85), ZOOM_MIN, ZOOM_MAX);
+  updateZoomLabel(); draw();
+});
+document.getElementById('jumpNow').addEventListener('click', ()=>{ S.viewOffset=0; draw(); });
+document.getElementById('shuffleBtn').addEventListener('click', ()=> startNewRandomRound());
+document.getElementById('clearDraw').addEventListener('click', ()=>{ S.drawings=[]; draw(); });
+document.querySelectorAll('.toolBtn[data-tool]').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    if(S.phase==='setRisk') return;
+    document.querySelectorAll('.toolBtn[data-tool]').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    S.tool = b.dataset.tool;
+    pendingDrawing = null;
+  });
+});
+
+// ===================================================================
+// Data loading / round management
+// ===================================================================
+function startRound(rows, randomStart, mode){
+  S.windowSize = parseInt(document.getElementById('windowSize').value)||45;
+  S.riskPct = parseFloat(document.getElementById('riskPct').value)||1;
+  S.defRR = parseFloat(document.getElementById('defRR').value)||2;
+  S.trailMultiplier = parseFloat(document.getElementById('trailMult').value)||1.5;
+  S.mode = mode;
+  S.tool = 'trade';
+  document.querySelectorAll('.toolBtn[data-tool]').forEach(x=>x.classList.toggle('active', x.dataset.tool==='trade'));
+
+  if(mode==='demo'){
+    S.demoSeed = Math.floor(Math.random()*1e9);
+    S.baseTimeframeMinutes = 1440;
+    S.baseRows = rows;
+    S.timeframeMinutes = 1440;
+    setActiveTFButton(1440);
+    refreshTFAvailability();
+    applyRowsAndReset(rows, {randomStart});
+  } else {
+    S.baseRows = rows;
+    S.baseTimeframeMinutes = medianDeltaMinutes(rows);
+    const validOptions = TF_OPTIONS.filter(o=>o.min>=S.baseTimeframeMinutes).map(o=>o.min);
+    const defaultTF = validOptions.length ? Math.min(...validOptions) : TF_OPTIONS[TF_OPTIONS.length-1].min;
+    S.timeframeMinutes = defaultTF;
+    setActiveTFButton(defaultTF);
+    refreshTFAvailability();
+    const useRows = defaultTF > S.baseTimeframeMinutes ? resampleByMinutes(rows, defaultTF) : rows;
+    applyRowsAndReset(useRows, {randomStart});
+  }
+  updateZoomLabel();
+  hint.classList.add('show');
+  setTimeout(()=>hint.classList.remove('show'), 3200);
+}
+
+document.getElementById('demoBtn').addEventListener('click', ()=>{
+  const rows = makeDemoData(1500, undefined, 1440);
+  document.getElementById('dataStatus').textContent = `ข้อมูลจำลองใหม่: ${rows.length} แท่ง (1D)`;
+  startRound(rows, false, 'demo');
+  closeModalFn();
+});
+function startNewRandomRound(){
+  if(S.phase!=='idle'){
+    const ok = confirm('ยังมีออเดอร์/ไม้ที่เปิดอยู่ ถ้าเริ่มรอบใหม่จะยกเลิกไม้นี้ทันที (ไม่นับเป็นประวัติ) ยืนยันหรือไม่?');
+    if(!ok) return;
+  }
+  vibrate(6);
+  if(S.mode==='demo'){
+    const count = DEMO_COUNTS[S.timeframeMinutes] || 1500;
+    const rows = makeDemoData(count, undefined, S.timeframeMinutes);
+    S.demoSeed = Math.floor(Math.random()*1e9);
+    S.baseRows = rows;
+    applyRowsAndReset(rows, {randomStart:true});
+  } else {
+    applyRowsAndReset(S.rows, {randomStart:true});
+  }
+}
+document.getElementById('newRoundBtn').addEventListener('click', ()=>{
+  startNewRandomRound();
+  closeModalFn();
+});
+document.getElementById('csvInput').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      const rows = parseCSV(reader.result);
+      document.getElementById('dataStatus').textContent = `โหลด CSV: ${file.name} (${rows.length} แท่ง)`;
+      startRound(rows, false, 'csv');
+      closeModalFn();
+    }catch(err){
+      document.getElementById('dataStatus').textContent = 'ผิดพลาด: '+err.message;
+    }
+  };
+  reader.readAsText(file);
+});
+document.getElementById('resetStatsBtn').addEventListener('click', ()=>{
+  S.trades=[]; S.equity=S.capital; S.equityCurve=[{n:0, equity:S.capital}]; updateStats(); closeModalFn();
+});
+
+// ===================================================================
+// Export / Import progress
+// ===================================================================
+function exportProgress(){
+  const data = {
+    app: 'gold-trade-trainer',
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    capital: S.capital,
+    equity: S.equity,
+    trades: S.trades,
+    equityCurve: S.equityCurve,
+    settings: {
+      riskPct: S.riskPct,
+      defRR: S.defRR,
+      trailMultiplier: S.trailMultiplier,
+      windowSize: S.windowSize,
+    },
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `gold-trainer-progress-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function importProgress(jsonText){
+  const data = JSON.parse(jsonText);
+  if(!data || !Array.isArray(data.trades)) throw new Error('รูปแบบไฟล์ไม่ถูกต้อง');
+  S.trades = data.trades.map(t=>({...t, date: new Date(t.date)}));
+  S.capital = typeof data.capital==='number' ? data.capital : S.capital;
+  S.equity = typeof data.equity==='number' ? data.equity : S.capital;
+  S.equityCurve = Array.isArray(data.equityCurve) && data.equityCurve.length
+    ? data.equityCurve.map(p=>({n:p.n, equity:p.equity}))
+    : [{n:0, equity:S.capital}];
+  if(data.settings){
+    if(data.settings.riskPct!=null){ S.riskPct=data.settings.riskPct; document.getElementById('riskPct').value=data.settings.riskPct; }
+    if(data.settings.defRR!=null){ S.defRR=data.settings.defRR; document.getElementById('defRR').value=data.settings.defRR; }
+    if(data.settings.trailMultiplier!=null){ S.trailMultiplier=data.settings.trailMultiplier; document.getElementById('trailMult').value=data.settings.trailMultiplier; }
+    if(data.settings.windowSize!=null){ document.getElementById('windowSize').value=data.settings.windowSize; }
+  }
+  updateStats();
+}
+document.getElementById('exportBtn').addEventListener('click', ()=>{
+  if(!S.trades.length){
+    document.getElementById('importStatus').textContent = 'ยังไม่มีประวัติเทรดให้ดาวน์โหลด';
+    return;
+  }
+  exportProgress();
+  document.getElementById('importStatus').textContent = `ดาวน์โหลดแล้ว (${S.trades.length} ไม้)`;
+});
+document.getElementById('importInput').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      importProgress(reader.result);
+      document.getElementById('importStatus').textContent = `นำเข้าสำเร็จ: ${S.trades.length} ไม้, เงินทุน ${fmt(S.equity,0)}`;
+    }catch(err){
+      document.getElementById('importStatus').textContent = 'นำเข้าผิดพลาด: '+err.message;
+    }
+  };
+  reader.readAsText(file);
+});
+
+
+const modalBg = document.getElementById('modalBg');
+function openModalFn(){ modalBg.classList.add('show'); }
+function closeModalFn(){ modalBg.classList.remove('show'); }
+document.getElementById('settingsBtn').addEventListener('click', openModalFn);
+document.getElementById('closeModal').addEventListener('click', closeModalFn);
+modalBg.addEventListener('click', (e)=>{ if(e.target===modalBg) closeModalFn(); });
+
+document.querySelectorAll('.themeSwatch').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    const theme = b.dataset.theme;
+    if(theme) document.body.setAttribute('data-theme', theme);
+    else document.body.removeAttribute('data-theme');
+    document.querySelectorAll('.themeSwatch').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    vibrate(6);
+  });
+});
+
+function setSkin(skin){
+  document.body.classList.toggle('skin-gameboy', skin==='gameboy');
+  const modernBtn = document.getElementById('skinModernBtn');
+  const gbBtn = document.getElementById('skinGameboyBtn');
+  modernBtn.classList.toggle('gold', skin==='modern');
+  modernBtn.classList.toggle('ghost', skin!=='modern');
+  gbBtn.classList.toggle('gold', skin==='gameboy');
+  gbBtn.classList.toggle('ghost', skin!=='gameboy');
+  draw();
+}
+document.getElementById('skinModernBtn').addEventListener('click', ()=>{ setSkin('modern'); vibrate(6); });
+document.getElementById('skinGameboyBtn').addEventListener('click', ()=>{ setSkin('gameboy'); vibrate(6); });
+
+
+
+// ===================================================================
+// Dashboard
+// ===================================================================
+function fmtR(v){ return (v>=0?'+':'')+fmt(v,2); }
+function pillClassFor(outcome){
+  if(outcome.includes('SL')) return 'SL';
+  if(outcome.includes('TP')) return 'TP';
+  return 'MANUAL';
+}
+
+function computeDashboardStats(){
+  const t = S.trades;
+  if(!t.length) return null;
+  const wins = t.filter(x=>x.r>0);
+  const losses = t.filter(x=>x.r<=0);
+  const totalR = t.reduce((s,x)=>s+x.r,0);
+  const grossProfit = wins.reduce((s,x)=>s+x.pnl,0);
+  const grossLoss = -losses.reduce((s,x)=>s+x.pnl,0);
+  const longs = t.filter(x=>x.direction==='long');
+  const shorts = t.filter(x=>x.direction==='short');
+
+  let streak=0, streakType=null;
+  for(let i=t.length-1;i>=0;i--){
+    const isWin = t[i].r>0;
+    if(streakType===null){ streakType=isWin; streak=1; }
+    else if(isWin===streakType) streak++;
+    else break;
+  }
+
+  let peak=-Infinity, maxDDPct=0;
+  for(const p of S.equityCurve){
+    peak = Math.max(peak, p.equity);
+    const ddPct = peak>0 ? (peak-p.equity)/peak*100 : 0;
+    if(ddPct>maxDDPct) maxDDPct=ddPct;
+  }
+
+  return {
+    total: t.length, wins: wins.length, losses: losses.length,
+    winRate: wins.length/t.length*100,
+    profitFactor: grossLoss>0 ? grossProfit/grossLoss : Infinity,
+    totalR, avgR: totalR/t.length,
+    bestR: Math.max(...t.map(x=>x.r)), worstR: Math.min(...t.map(x=>x.r)),
+    netPnl: S.equity-S.capital, maxDDPct,
+    longCount: longs.length, shortCount: shorts.length,
+    longWin: longs.length ? longs.filter(x=>x.r>0).length/longs.length*100 : null,
+    shortWin: shorts.length ? shorts.filter(x=>x.r>0).length/shorts.length*100 : null,
+    streak, streakType,
+  };
+}
+function rHistogram(trades){
+  const bins = [
+    {label:'≤-2',min:-Infinity,max:-2,count:0}, {label:'-2..-1',min:-2,max:-1,count:0},
+    {label:'-1..0',min:-1,max:0,count:0}, {label:'0..1',min:0,max:1,count:0},
+    {label:'1..2',min:1,max:2,count:0}, {label:'2..3',min:2,max:3,count:0}, {label:'>3',min:3,max:Infinity,count:0},
+  ];
+  for(const t of trades) for(const b of bins){ if(t.r>b.min && t.r<=b.max){ b.count++; break; } }
+  return bins;
+}
+function setupSimpleCanvas(canvas, cssHeight){
+  const dpr = window.devicePixelRatio||1;
+  const cssWidth = canvas.parentElement.clientWidth || 300;
+  canvas.style.width = cssWidth+"px";
+  canvas.style.height = cssHeight+"px";
+  canvas.width = cssWidth*dpr; canvas.height = cssHeight*dpr;
+  const c = canvas.getContext('2d');
+  c.setTransform(dpr,0,0,dpr,0,0);
+  return {c, w:cssWidth, h:cssHeight};
+}
+function drawDashEquity(canvas){
+  const {c,w,h} = setupSimpleCanvas(canvas, 140);
+  const th = getTheme();
+  const data = S.equityCurve;
+  c.clearRect(0,0,w,h);
+  const padL=48, padR=10, padT=10, padB=8;
+  const plotW=w-padL-padR, plotH=h-padT-padB;
+  let mn=Infinity, mx=-Infinity;
+  for(const p of data){ mn=Math.min(mn,p.equity); mx=Math.max(mx,p.equity); }
+  if(mn===mx){ mn-=1; mx+=1; }
+  const pad=(mx-mn)*0.12 || 5; mn-=pad; mx+=pad;
+  const xAt = i => padL + (data.length>1 ? i/(data.length-1)*plotW : plotW/2);
+  const yAt = e => padT + (1-(e-mn)/(mx-mn))*plotH;
+  c.strokeStyle=`rgba(${th.gridRgb},0.12)`; c.fillStyle=th.muted;
+  c.font="9px "+(getComputedStyle(document.documentElement).getPropertyValue('--mono')||"monospace");
+  c.textAlign="right";
+  for(let g=0; g<=3; g++){ const e=mn+(mx-mn)*g/3, y=yAt(e); c.beginPath(); c.moveTo(padL,y); c.lineTo(w-padR,y); c.stroke(); c.fillText(fmt(e,0), padL-6, y+3); }
+  c.strokeStyle=`rgba(${th.gridRgb},0.3)`; c.setLineDash([3,3]);
+  const by = yAt(S.capital); c.beginPath(); c.moveTo(padL,by); c.lineTo(w-padR,by); c.stroke(); c.setLineDash([]);
+  c.strokeStyle=th.entry; c.lineWidth=1.6; c.beginPath();
+  data.forEach((p,i)=>{ const x=xAt(i), y=yAt(p.equity); if(i===0) c.moveTo(x,y); else c.lineTo(x,y); });
+  c.stroke();
+}
+function drawDashHist(canvas){
+  const {c,w,h} = setupSimpleCanvas(canvas, 120);
+  const th = getTheme();
+  const bins = rHistogram(S.trades);
+  c.clearRect(0,0,w,h);
+  const padL=8, padR=8, padT=16, padB=16;
+  const plotW=w-padL-padR, plotH=h-padT-padB;
+  const maxCount = Math.max(1, ...bins.map(b=>b.count));
+  const bw = plotW/bins.length;
+  c.font="9px "+(getComputedStyle(document.documentElement).getPropertyValue('--mono')||"monospace");
+  c.textAlign="center";
+  bins.forEach((b,i)=>{
+    const bh = (b.count/maxCount)*(plotH-14);
+    const x = padL+i*bw;
+    const y = padT+(plotH-bh);
+    c.fillStyle = rgba(b.min<0 ? th.down : th.up, 0.75);
+    c.fillRect(x+bw*0.12, y, bw*0.76, Math.max(1,bh));
+    c.fillStyle=getComputedStyle(document.body).getPropertyValue('--text').trim()||"#eeece4";
+    if(b.count>0) c.fillText(b.count, x+bw/2, y-4);
+    c.fillStyle=th.muted;
+    c.fillText(b.label, x+bw/2, h-6);
+  });
+}
+function renderDashboard(){
+  const body = document.getElementById('dashBody');
+  const stats = computeDashboardStats();
+  if(!stats){
+    body.innerHTML = `<div class="emptyDash">ยังไม่มีประวัติการเทรด<br>เริ่มฝึกเทรดในหน้าหลักแล้วกลับมาดูสถิติที่นี่ได้เลย</div>`;
+    return;
+  }
+  const cards = [
+    ['จำนวนไม้', stats.total, ''],
+    ['Win rate', fmt(stats.winRate,1)+'%', stats.winRate>=50?'pos':'neg'],
+    ['Profit Factor', stats.profitFactor===Infinity?'∞':fmt(stats.profitFactor,2), stats.profitFactor>=1?'pos':'neg'],
+    ['Total R', fmtR(stats.totalR), stats.totalR>=0?'pos':'neg'],
+    ['R เฉลี่ย/ไม้', fmtR(stats.avgR), stats.avgR>=0?'pos':'neg'],
+    ['กำไร/ขาดทุนสุทธิ', (stats.netPnl>=0?'+':'')+fmt(stats.netPnl,0), stats.netPnl>=0?'pos':'neg'],
+    ['Max Drawdown', fmt(stats.maxDDPct,1)+'%', 'neg'],
+    ['ไม้ดีที่สุด', fmtR(stats.bestR)+'R', 'pos'],
+    ['ไม้แย่ที่สุด', fmtR(stats.worstR)+'R', 'neg'],
+    ['Streak ปัจจุบัน', stats.streak? (stats.streakType?'ชนะ ':'แพ้ ')+stats.streak+' ไม้' : '-', stats.streakType?'pos':'neg'],
+  ];
+  let html = `<div class="statsGrid">` +
+    cards.map(([l,v,cls])=>`<div class="stat"><div class="l">${l}</div><div class="v ${cls}">${v}</div></div>`).join('') +
+    `</div>`;
+
+  html += `<div class="dashSection"><h3>Equity Curve</h3><canvas class="dashCanvas" id="dashEquityCanvas"></canvas></div>`;
+  html += `<div class="dashSection"><h3>การกระจายตัวของ R multiple</h3><canvas class="dashCanvas" id="dashHistCanvas"></canvas></div>`;
+
+  html += `<div class="dashSection"><h3>Long vs Short</h3><div class="statsGrid">
+    <div class="stat"><div class="l">Long &middot; ${stats.longCount} ไม้</div><div class="v ${stats.longWin>=50?'pos':'neg'}">${stats.longWin!=null?fmt(stats.longWin,1)+'%':'–'}</div></div>
+    <div class="stat"><div class="l">Short &middot; ${stats.shortCount} ไม้</div><div class="v ${stats.shortWin>=50?'pos':'neg'}">${stats.shortWin!=null?fmt(stats.shortWin,1)+'%':'–'}</div></div>
+  </div></div>`;
+
+  html += `<div class="dashSection"><h3>ประวัติการเทรดทั้งหมด (${S.trades.length})</h3>
+    <div class="dashTableWrap"><table class="dashTable"><thead><tr>
+      <th>#</th><th>ทิศทาง</th><th>วันที่</th><th>ผล</th><th>R</th><th>PnL</th>
+    </tr></thead><tbody>` +
+    S.trades.map((t,i)=>`<tr>
+      <td>${i+1}</td>
+      <td class="${t.direction==='long'?'dirLong':'dirShort'}">${t.direction==='long'?'LONG':'SHORT'}</td>
+      <td>${fmtDate(t.date)}</td>
+      <td><span class="pill ${pillClassFor(t.outcome)}">${t.outcome}</span></td>
+      <td class="${t.r>=0?'dirLong':'dirShort'}">${fmtR(t.r)}</td>
+      <td class="${t.pnl>=0?'dirLong':'dirShort'}">${(t.pnl>=0?'+':'')+fmt(t.pnl,2)}</td>
+    </tr>`).reverse().join('') +
+    `</tbody></table></div></div>`;
+
+  body.innerHTML = html;
+  drawDashEquity(document.getElementById('dashEquityCanvas'));
+  drawDashHist(document.getElementById('dashHistCanvas'));
+}
+
+const dashBg = document.getElementById('dashBg');
+document.getElementById('dashBtn').addEventListener('click', ()=>{
+  renderDashboard();
+  dashBg.classList.add('show');
+});
+document.getElementById('closeDash').addEventListener('click', ()=> dashBg.classList.remove('show'));
+
+// boot
+startRound(makeDemoData(1500, undefined, 1440), false, 'demo');
+updateStats();
+</script>
+</body>
+</html>
